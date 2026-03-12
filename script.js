@@ -408,32 +408,52 @@ function descartar() {
     const baixados = turno === 1 ? baixados1 : baixados2;
     const maoEl = turno === 1 ? mao1El : mao2El;
     const selecionada = maoEl.querySelector(".carta.selecionada");
+    
     if (!selecionada) return;
-
-    const carta = selecionada.textContent;
+    
+    let carta = selecionada.textContent;
     mao.splice(mao.indexOf(carta), 1);
     descarte.push(carta);
 
+    // Verifica se a mão esvaziou
     if (mao.length === 0) {
         const jaPegouMorto = (turno === 1 && pegouMorto1) || (turno === 2 && pegouMorto2);
+        
         if (jaPegouMorto) {
+            // Se já pegou o morto, tenta bater o jogo final
             if (temCanastraLimpa(baixados)) { 
                 fimDoJogo(turno); 
                 return; 
             } else { 
                 alert("Batida inválida! É necessário ter pelo menos uma Canastra Limpa para bater."); 
+                // Devolve a carta para a mão e cancela o descarte
                 mao.push(descarte.pop()); 
                 renderizar(); 
                 return; 
             }
         } else {
+            // --- CORREÇÃO AQUI ---
+            // Jogador bateu para pegar o morto DESCARTANDO.
+            // Regra: Pega o morto e PASSA A VEZ.
+            
             const morto = turno === 1 ? morto1 : morto2;
             mao.push(...morto);
+            
             if (turno === 1) { pegouMorto1 = true; morto1 = []; }
             else { pegouMorto2 = true; morto2 = []; }
-            alert(`Jogador ${turno} pegou o morto!`);
+            
+            alert(`Jogador ${turno} pegou o morto no descarte! A vez passa para o oponente.`);
+            
+            // Forçamos a renderização para atualizar a mão com o morto visualmente antes de trocar
+            renderizar(); 
+            
+            // Chama o próximo turno porque houve descarte
+            proximoTurno(); 
+            return;
         }
     }
+    
+    // Se a mão não acabou, segue o fluxo normal de troca de turno
     proximoTurno();
 }
 // --- REGRAS STBL, PONTUAÇÃO E IA ---
