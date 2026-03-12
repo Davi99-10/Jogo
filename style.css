@@ -211,3 +211,74 @@ body {
 }
 
 
+/* =========================================
+   ADAPTAÇÕES PARA CELULAR (MOBILE REPOSIVO)
+   ========================================= */
+@media (max-width: 600px) {
+  body {
+    padding: 10px;
+  }
+
+  /* Faz a mão do jogador rolar para os lados para caber todas as cartas */
+  .jogador {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding-bottom: 15px; /* Espaço para a carta selecionada "subir" sem cortar */
+    margin: 10px 0;
+    /* Suaviza o scroll no iPhone/Android */
+    -webkit-overflow-scrolling: touch; 
+  }
+
+  /* Cartas ligeiramente menores para caber melhor na visão */
+  .carta {
+    width: 50px;
+    height: 75px;
+    font-size: 18px;
+    flex-shrink: 0; /* Impede que o celular esprema as cartas */
+    margin: 5px 2px;
+  }
+
+  /* Aumenta a área de toque dos botões (dedos são maiores que cursores) */
+  .acoes button, #btnProximaRodada {
+    min-height: 45px; /* Altura ideal para toque */
+    width: 48%; /* Coloca os botões lado a lado */
+    margin: 5px 1%;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  /* Os botões de ação ficam em grid para organizar o espaço */
+  #acoesNormais {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  /* Área do Lixo e Monte */
+  #descarteArea {
+    font-size: 14px;
+    padding: 8px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Cartas da mesa (jogos baixados) menores */
+  .jogo-carta {
+    width: 20px;
+    height: 32px;
+    font-size: 10px;
+  }
+
+  /* Menu e Modais redimensionados */
+  #menuPrincipal, #fimRodadaModal {
+    padding: 20px;
+    width: 90%;
+    box-sizing: border-box;
+  }
+
+  .score-breakdown {
+    flex-direction: column; /* Coloca os pontos um em cima do outro, não lado a lado */
+    gap: 15px;
+  }
+}
