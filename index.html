@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Buraco Fechado STBL</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="menuPrincipal">
+    <h1>Buraco Fechado STBL</h1>
+    <p>Escolha o modo de jogo:</p>
+    <button id="btnPVP">Jogador vs Jogador</button>
+    <button id="btnPVE">Jogador vs Máquina</button>
+  </div>
+
+  <div id="areaJogo" style="display: none;">
+    <div id="placar">
+      <span>Jogador 1: <strong id="pontosTotal1">0</strong> (<span id="pontosRodada1">0</span> na rodada)</span> |
+      <span id="labelJogador2">Jogador 2</span>: <strong id="pontosTotal2">0</strong> (<span id="pontosRodada2">0</span> na rodada)
+    </div>
+
+    <h2 id="turnoInfo">Turno do Jogador 1</h2>
+
+    <div class="jogador" id="maoJogador1"></div>
+    <h3>Seus Jogos Baixados</h3>
+    <div id="jogosBaixados1" class="mesa"></div>
+
+    <div class="acoes">
+    <div id="acoesNormais">
+        <button id="comprarMonte">Comprar do Monte</button>
+        <button id="comprarDescarte">Pegar Lixo</button>
+        <button id="descartar" disabled>Descartar</button>
+        <button id="baixar" disabled>Baixar Seleção</button>
+    </div>
+
+    <div id="acoesPegarLixo" style="display: none;">
+        <p style="font-weight: bold; margin-bottom: 5px;">Modo "Pegar Lixo"</p>
+        <button id="btnConfirmarPegada" disabled>Confirmar Pegada</button>
+        <button id="btnCancelarPegada">Cancelar</button>
+    </div>
+</div>
+
+    <div id="descarteArea">
+      <span>Monte: <strong id="monteContagem">?</strong></span> | 
+      <span>Lixo: <strong id="descarteTopo">?</strong> (<span id="descarteContagem">0</span> cartas)</span>
+    </div>
+
+    <div class="jogador" id="maoJogador2"></div>
+    <h3>Jogos Baixados (Oponente)</h3>
+    <div id="jogosBaixados2" class="mesa"></div>
+
+    <div id="overlay" class="overlay" style="display: none;">
+      <div class="overlay-content">
+        <h2 id="overlayTexto">Próximo jogador</h2>
+        <button id="confirmarTurno">Confirmar e Jogar</button>
+      </div>
+    </div>
+  </div>
+  <div id="fimRodadaOverlay" class="overlay" style="display: none;">
+    <div id="fimRodadaModal">
+        <h2 id="fimRodadaTitulo">Fim da Rodada!</h2>
+        <p id="fimRodadaSubtitulo">Jogador 1 bateu!</p>
+
+        <div class="score-breakdown">
+            <div class="player-score-column">
+                <h3>Jogador 1</h3>
+                <p>Pontos na Mesa: <span id="resumoMesa1">0</span></p>
+                <p>Bônus da Batida: <span id="resumoBatida1">0</span></p>
+                <p>Bônus de Canastras: <span id="resumoCanastras1">0</span></p>
+                <p>Penalidade (Mão): <span class="penalidade">-<span id="resumoMao1">0</span></span></p>
+                <p>Penalidade (Morto): <span class="penalidade">-<span id="resumoMorto1">0</span></span></p>
+                <hr>
+                <p class="total-rodada">Total na Rodada: <strong id="resumoRodada1">0</strong></p>
+            </div>
+
+            <div class="player-score-column">
+                <h3 id="resumoNomeJogador2">Jogador 2</h3>
+                <p>Pontos na Mesa: <span id="resumoMesa2">0</span></p>
+                <p>Bônus da Batida: <span id="resumoBatida2">0</span></p>
+                <p>Bônus de Canastras: <span id="resumoCanastras2">0</span></p>
+                <p>Penalidade (Mão): <span class="penalidade">-<span id="resumoMao2">0</span></span></p>
+                <p>Penalidade (Morto): <span class="penalidade">-<span id="resumoMorto2">0</span></span></p>
+                <hr>
+                <p class="total-rodada">Total na Rodada: <strong id="resumoRodada2">0</strong></p>
+            </div>
+        </div>
+
+        <div class="placar-geral">
+            <p>Placar Geral: Jogador 1 (<strong id="resumoTotal1">0</strong>) x <span id="resumoNomeJogador2_placar">Jogador 2</span> (<strong id="resumoTotal2">0</strong>)</p>
+        </div>
+
+        <button id="btnProximaRodada">Próxima Rodada</button>
+    </div>
+</div>
+  <script src="script.js"></script>
+</body>
+</html>
+
