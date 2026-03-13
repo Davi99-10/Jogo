@@ -175,6 +175,34 @@ function executarPegadaDoLixo() {
     sairModoPegarLixo(); // Limpa o estado e atualiza a tela
 }
 
+// --- ORGANIZAÇÃO DA MÃO ---
+function ordenarMao(mao) {
+    // Define a ordem dos naipes para agrupar as cores
+    const ordemNaipes = { '♥': 1, '♠': 2, '♦': 3, '♣': 4 };
+    // Define a ordem de valor das cartas
+    const ordemValores = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+
+    mao.sort((a, b) => {
+        // Curingas sempre vão para o final da mão
+        if (a === 'Curinga' && b === 'Curinga') return 0;
+        if (a === 'Curinga') return 1;
+        if (b === 'Curinga') return -1;
+
+        const naipeA = naipeCarta(a);
+        const naipeB = naipeCarta(b);
+
+        // Primeiro: Agrupa pelo Naipe
+        if (ordemNaipes[naipeA] !== ordemNaipes[naipeB]) {
+            return ordemNaipes[naipeA] - ordemNaipes[naipeB];
+        }
+
+        // Segundo: Se for do mesmo Naipe, ordena pelo Valor
+        const valorA = valorCarta(a);
+        const valorB = valorCarta(b);
+        return ordemValores.indexOf(valorA) - ordemValores.indexOf(valorB);
+    });
+}
+
 function criarBaralho() {
     let deck = [];
     for (let i = 0; i < 2; i++) {
@@ -225,6 +253,10 @@ function renderizar() {
         }
         
         maoContainer.appendChild(el);
+
+        // ---> ADICIONE ESTAS DUAS LINHAS AQUI <---
+    ordenarMao(jogador1);
+    ordenarMao(jogador2);
     
         // Animação de fade-in/slide-in
         setTimeout(() => {
@@ -1333,4 +1365,3 @@ function iaDecideDescarteEstrategico() {
     
     return melhorCartaParaDescartar;
 }
-
