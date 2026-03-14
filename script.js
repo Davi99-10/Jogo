@@ -177,8 +177,7 @@ function executarPegadaDoLixo() {
 
 // --- ORGANIZAÇÃO DA MÃO (PADRÃO BURACO) ---
 function ordenarMao(mao) {
-    const ordemNaipes = { '♥': 1, '♠': 2, '♦': 3, '♣': 4 };
-    // O 'A' vai para o final (depois do K). O '2' não está aqui porque será jogado para o final da mão.
+    // Usamos a ordem de valores do Buraco (3 ao A)
     const ordemValores = ['3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
 
     mao.sort((a, b) => {
@@ -190,20 +189,21 @@ function ordenarMao(mao) {
         if (isCuringaA && !isCuringaB) return 1;
         if (!isCuringaA && isCuringaB) return -1;
 
-        // Se ambas são curingas, organiza entre eles (Curingão por último, '2's agrupados por naipe)
+        // Se ambas são curingas, organiza entre eles (Curingão por último)
         if (isCuringaA && isCuringaB) {
             if (a === 'Curinga' && b !== 'Curinga') return 1;
             if (a !== 'Curinga' && b === 'Curinga') return -1;
             if (a === 'Curinga' && b === 'Curinga') return 0;
-            return ordemNaipes[naipeCarta(a)] - ordemNaipes[naipeCarta(b)];
+            // Usa a constante global 'naipes' do topo do código
+            return naipes.indexOf(naipeCarta(a)) - naipes.indexOf(naipeCarta(b));
         }
 
-        // 2. Se são cartas naturais, organiza primeiro pelo Naipe
+        // 2. Se são cartas naturais, organiza primeiro pelo Naipe usando a constante global 'naipes'
         const naipeA = naipeCarta(a);
         const naipeB = naipeCarta(b);
-
-        if (ordemNaipes[naipeA] !== ordemNaipes[naipeB]) {
-            return ordemNaipes[naipeA] - ordemNaipes[naipeB];
+        
+        if (naipeA !== naipeB) {
+            return naipes.indexOf(naipeA) - naipes.indexOf(naipeB);
         }
 
         // 3. Se são do mesmo naipe, organiza pela escadinha (do 3 ao Ás)
