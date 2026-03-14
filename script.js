@@ -175,34 +175,43 @@ function executarPegadaDoLixo() {
     sairModoPegarLixo(); // Limpa o estado e atualiza a tela
 }
 
-// --- ORGANIZAÇÃO DA MÃO ---
+// --- ORGANIZAÇÃO DA MÃO (PADRÃO BURACO) ---
 function ordenarMao(mao) {
-    // Define a ordem dos naipes para agrupar as cores
     const ordemNaipes = { '♥': 1, '♠': 2, '♦': 3, '♣': 4 };
-    // Define a ordem de valor das cartas
-    const ordemValores = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+    // O 'A' vai para o final (depois do K). O '2' não está aqui porque será jogado para o final da mão.
+    const ordemValores = ['3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
 
     mao.sort((a, b) => {
-        // Curingas sempre vão para o final da mão
-        if (a === 'Curinga' && b === 'Curinga') return 0;
-        if (a === 'Curinga') return 1;
-        if (b === 'Curinga') return -1;
+        // Identifica se a carta é um Curinga (Curingão ou qualquer '2')
+        const isCuringaA = a === 'Curinga' || valorCarta(a) === '2';
+        const isCuringaB = b === 'Curinga' || valorCarta(b) === '2';
 
+        // 1. Joga todos os Curingas e '2' para o extremo direito da mão
+        if (isCuringaA && !isCuringaB) return 1;
+        if (!isCuringaA && isCuringaB) return -1;
+
+        // Se ambas são curingas, organiza entre eles (Curingão por último, '2's agrupados por naipe)
+        if (isCuringaA && isCuringaB) {
+            if (a === 'Curinga' && b !== 'Curinga') return 1;
+            if (a !== 'Curinga' && b === 'Curinga') return -1;
+            if (a === 'Curinga' && b === 'Curinga') return 0;
+            return ordemNaipes[naipeCarta(a)] - ordemNaipes[naipeCarta(b)];
+        }
+
+        // 2. Se são cartas naturais, organiza primeiro pelo Naipe
         const naipeA = naipeCarta(a);
         const naipeB = naipeCarta(b);
 
-        // Primeiro: Agrupa pelo Naipe
         if (ordemNaipes[naipeA] !== ordemNaipes[naipeB]) {
             return ordemNaipes[naipeA] - ordemNaipes[naipeB];
         }
 
-        // Segundo: Se for do mesmo Naipe, ordena pelo Valor
+        // 3. Se são do mesmo naipe, organiza pela escadinha (do 3 ao Ás)
         const valorA = valorCarta(a);
         const valorB = valorCarta(b);
         return ordemValores.indexOf(valorA) - ordemValores.indexOf(valorB);
     });
 }
-
 function criarBaralho() {
     let deck = [];
     for (let i = 0; i < 2; i++) {
