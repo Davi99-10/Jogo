@@ -760,6 +760,26 @@ function preencherResumo(pontos) {
     document.getElementById('resumoTotal2').textContent = pontosTotal2;
 }
 
+function calcularPontosParciais(listaJogos) {
+    let total = 0;
+    listaJogos.forEach(jogo => {
+        // 1. Soma o valor de cada carta individual
+        jogo.forEach(carta => {
+            total += getCardValue(carta); // Usa a função que você já criou!
+        });
+        
+        // 2. Verifica se formou Canastra (7 ou mais cartas) e soma o bônus na hora
+        if (jogo.length >= 7) {
+            if (verificarLimpezaDoJogo(jogo)) {
+                total += 200; // Canastra Limpa
+            } else {
+                total += 100; // Canastra Suja
+            }
+        }
+    });
+    return total;
+}
+
 function calcularPontosFinais(vencedor) {
     // --- INÍCIO DA CORREÇÃO ---
     // Pontos das cartas na mesa (reescrito sem usar .flat())
@@ -821,6 +841,10 @@ function prepararProximaRodada() {
 }
 
 function atualizarPlacar() {
+    // Recalcula os pontos da rodada lendo exatamente o que está na mesa
+    pontosRodada1 = calcularPontosParciais(baixados1);
+    pontosRodada2 = calcularPontosParciais(baixados2);
+
     pontosTotal1El.textContent = pontosTotal1;
     pontosRodada1El.textContent = pontosRodada1;
     pontosTotal2El.textContent = pontosTotal2;
