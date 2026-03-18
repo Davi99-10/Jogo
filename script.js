@@ -263,9 +263,6 @@ function renderizar() {
         
         maoContainer.appendChild(el);
 
-        // ---> ADICIONE ESTAS DUAS LINHAS AQUI <---
-    ordenarMao(jogador1);
-    ordenarMao(jogador2);
     
         // Animação de fade-in/slide-in
         setTimeout(() => {
@@ -274,8 +271,13 @@ function renderizar() {
         }, 10);
     }
     
+
+    ordenarMao(jogador1);
+    ordenarMao(jogador2);
+
     jogador1.forEach(carta => criarElementoCarta(carta, mao1El, turno === 1, mostrarMao1));
     jogador2.forEach(carta => criarElementoCarta(carta, mao2El, turno === 2 && gameMode === 'pvp', mostrarMao2));
+    
 
     monteContagemEl.textContent = baralho.length;
     descarteEl.textContent = descarte.length > 0 ? descarte[descarte.length - 1] : "?";
