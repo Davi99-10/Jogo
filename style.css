@@ -28,6 +28,7 @@ body {
   align-items: center;
   font-size: 20px;
   font-weight: bold;
+  -webkit-user-select: none;
   user-select: none;
   box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
   position: relative;
@@ -281,4 +282,13 @@ body {
     flex-direction: column; /* Coloca os pontos um em cima do outro, não lado a lado */
     gap: 15px;
   }
+}
+
+.jogador .carta {
+    margin-right: -25px; /* Sobrepõe as cartas */
+    transition: margin 0.2s;
+}
+.jogador .carta:hover, .jogador .carta.selecionada {
+    margin-right: 5px; /* Abre espaço ao selecionar */
+    z-index: 5;
 }
